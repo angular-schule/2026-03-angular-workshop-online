@@ -10,5 +10,8 @@
     </header>
     <p>{{ book().description }}</p>
     <p><strong>Preis:</strong> {{ book().price }}</p>
+
+    <button type="button" class="btn btn-red" aria-label="Rate down" (click)="doRateDown()"> – </button>
+    <button type="button" class="btn btn-green" aria-label="Rate up" (click)="doRateUp()"> + </button>
   </div>
 </article>
