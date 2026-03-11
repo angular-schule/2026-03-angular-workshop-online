@@ -4,9 +4,7 @@
       src="https://api.angular.schule/avatar/{{ book().rating }}">
     <header class="card-title">
       <h2>{{ book().title }}</h2>
-      <span class="badge rounded-pill text-bg-secondary">
-        Bewertung: {{ book().rating }}
-      </span>
+      <app-rating-display [value]="book().rating" />
     </header>
     <p><strong>Autoren:</strong> {{ book().authors.join(', ') }}</p>
     <p>{{ book().description }}</p>

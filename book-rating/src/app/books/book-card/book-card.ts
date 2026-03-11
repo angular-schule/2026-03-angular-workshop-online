@@ -1,9 +1,10 @@
 import { Component, input, output } from '@angular/core';
 import { Book } from '../shared/book';
+import { RatingDisplay } from '../rating-display/rating-display';
 
 @Component({
   selector: 'app-book-card',
-  imports: [],
+  imports: [RatingDisplay],
   templateUrl: './book-card.html',
   styleUrl: './book-card.scss',
 })
