@@ -8,6 +8,7 @@
         Bewertung: {{ book().rating }}
       </span>
     </header>
+    <p><strong>Autoren:</strong> {{ book().authors.join(', ') }}</p>
     <p>{{ book().description }}</p>
     <p><strong>Preis:</strong> {{ book().price }}</p>
 
