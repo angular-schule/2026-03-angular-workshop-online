@@ -54,4 +54,32 @@ describe('BookRatingHelper', () => {
     const ratedBook = service.rateDown(book);
     expect(ratedBook.rating).toBe(1);
   });
+
+  it('should return a new book object on rateUp', () => {
+    const ratedBook = service.rateUp(book);
+    expect(ratedBook).not.toBe(book);
+  });
+
+  it('should return a new book object on rateDown', () => {
+    const ratedBook = service.rateDown(book);
+    expect(ratedBook).not.toBe(book);
+  });
+
+  it('should return the same object on rateDown when rating is already 1', () => {
+    book.rating = 1;
+    const ratedBook = service.rateDown(book);
+    expect(ratedBook).toBe(book);
+  });
+
+  it('should not mutate the original book on rateUp', () => {
+    book.rating = 3;
+    service.rateUp(book);
+    expect(book.rating).toBe(3);
+  });
+
+  it('should not mutate the original book on rateDown', () => {
+    book.rating = 3;
+    service.rateDown(book);
+    expect(book.rating).toBe(3);
+  });
 });
