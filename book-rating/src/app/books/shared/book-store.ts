@@ -11,19 +11,19 @@ export class BookStore {
   #apiUrl = 'https://api.angular.schule';
 
   getAll(): Observable<Book[]> {
-    return this.#http.get<Book[]>(this.#apiUrl + '/books');
+    return this.#http.get<Book[]>(`${this.#apiUrl}/books`);
   }
   
   getSingle(isbn: string): Observable<Book> {
-    return this.#http.get<Book>(this.#apiUrl + '/books/' + isbn);
+    return this.#http.get<Book>(`${this.#apiUrl}/books/${isbn}`);
   }
 
   create(book: Book): Observable<Book> {
-    return this.#http.post<Book>(this.#apiUrl + '/books', book);
+    return this.#http.post<Book>(`${this.#apiUrl}/books`, book);
   }
 
-  search(term: string) {
-    return this.#http.get<Book[]>(this.#apiUrl + '/books/search/' + term);
+  search(term: string): Observable<Book[]> {
+    return this.#http.get<Book[]>(`${this.#apiUrl}/books/search/${term}`);
   }
 
 }
