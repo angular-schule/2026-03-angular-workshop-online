@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Book } from '../shared/book';
-import { BookCard } from "../book-card/book-card";
+import { BookCard } from '../book-card/book-card';
+import { BookRatingHelper } from '../shared/book-rating-helper';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -10,6 +11,8 @@ import { BookCard } from "../book-card/book-card";
 })
 export class DashboardPage {
   protected readonly books = signal<Book[]>([]);
+  
+  #ratingHelper = inject(BookRatingHelper);
 
   constructor() {
     this.books.set([
@@ -19,7 +22,7 @@ export class DashboardPage {
         description: 'Grundlagen und mehr',
         price: 42.9,
         rating: 5,
-        authors: ['FM', 'DK', 'JH']
+        authors: ['FM', 'DK', 'JH'],
       },
       {
         isbn: '456',
@@ -27,8 +30,8 @@ export class DashboardPage {
         description: 'Das grüne Framework',
         price: 46.9,
         rating: 3,
-        authors: ['FD']
-      }
+        authors: ['FD'],
+      },
     ]);
   }
 
@@ -39,5 +42,4 @@ export class DashboardPage {
   doRateDown(book: Book) {
     console.log('DOWN', book);
   }
-
 }
