@@ -36,10 +36,50 @@ export class DashboardPage {
   }
 
   doRateUp(book: Book) {
-    console.log('UP', book);
+    const ratedBook = this.#ratingHelper.rateUp(book);
+    this.#updateList(ratedBook);
+  }
+  
+  doRateDown(book: Book) {
+    const ratedBook = this.#ratingHelper.rateDown(book);
+    this.#updateList(ratedBook);
   }
 
-  doRateDown(book: Book) {
-    console.log('DOWN', book);
+  #updateList(ratedBook: Book) {
+    // Buchliste neu erzeugen, dabei Buch austauschen
+    // [1,2,3,4,5].map(e => e * 10) // [10, 20, 30, 40, 50]
+    // [7, 4, 8, 6, 7, 2, 4].filter(e => e < 5) // [4, 2, 4]
+    
+    this.books.update(currentList => {
+      return currentList.map(b => {
+        if (ratedBook.isbn === b.isbn) {
+          return ratedBook;
+        } else {
+          return b;
+        }
+      })
+    });
   }
 }
+
+
+
+const myObj = {
+  title: 'Angular',
+  year: 2016,
+  author: {
+    firstname: 'F',
+    lastname: 'M'
+  }
+}
+
+const myCopy = {
+  ...myObj,
+  author: {
+    ...myObj.author,
+    firstname: 'L'
+  }
+}
+
+// echte Deep Copy
+const myCopy2 = structuredClone(myObj);
