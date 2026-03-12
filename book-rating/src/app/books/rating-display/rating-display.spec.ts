@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RatingDisplay } from './rating-display';
+import { inputBinding } from '@angular/core';
 
 describe('RatingDisplay', () => {
   let component: RatingDisplay;
@@ -12,7 +13,9 @@ describe('RatingDisplay', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RatingDisplay);
+    fixture = TestBed.createComponent(RatingDisplay, {
+      bindings: [inputBinding('value', () => 4)]
+    });
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
