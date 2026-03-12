@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DashboardPage } from './dashboard-page';
 import { BookRatingHelper } from '../shared/book-rating-helper';
 import { Book } from '../shared/book';
+import { BookStore } from '../shared/book-store';
+import { of } from 'rxjs';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
@@ -17,6 +19,10 @@ describe('DashboardPage', () => {
         {
           provide: BookRatingHelper,
           useValue: { rateUp: (b: Book) => b }
+        },
+        {
+          provide: BookStore,
+          useValue: { getAll: () => of([]) }
         }
       ]
     }).compileComponents();
