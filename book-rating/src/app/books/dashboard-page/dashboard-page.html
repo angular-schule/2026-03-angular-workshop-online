@@ -4,5 +4,7 @@
     <app-book-card
         (rateUp)="doRateUp($event)"
         (rateDown)="doRateDown($event)"
-        [book]="b" />
+        [book]="b"
+        [minRating]="1"
+        [maxRating]="5" />
 }

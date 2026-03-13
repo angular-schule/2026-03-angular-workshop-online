@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { Book } from '../shared/book';
 import { BookCard } from '../book-card/book-card';
 import { BookRatingHelper } from '../shared/book-rating-helper';
@@ -12,7 +12,7 @@ import { BookStore } from '../shared/book-store';
 })
 export class DashboardPage {
   protected readonly books = signal<Book[]>([]);
-  
+
   #ratingHelper = inject(BookRatingHelper);
   #store = inject(BookStore);
 
