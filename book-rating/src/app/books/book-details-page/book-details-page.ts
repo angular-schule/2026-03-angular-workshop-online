@@ -1,5 +1,6 @@
 import { Component, inject, input } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { BookStore } from '../shared/book-store';
 
 @Component({
   selector: 'app-book-details-page',
@@ -9,13 +10,5 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 })
 export class BookDetailsPage {
   readonly isbn = input.required<string>();
-  
+  protected readonly book = inject(BookStore).getSingleResource(this.isbn);
 }
-
-
-/* TODO
-- ISBN auslesen
-- Buch per HTTP
-- Buch anzeigen
-
-*/

@@ -1,6 +1,20 @@
-<p>{{ isbn() }}</p>
+@if (book.isLoading()) {
+    <div aria-busy="true">Buch wird geladen …</div>
+}
+
+@let error = book.error();
+@if (error) {
+    <div>Fehler beim Laden! {{ error.message }}</div>
+}
+
+@if (book.hasValue()) {
+    @let b = book.value();
+    <h2>{{ b.title }}</h2>
+    <p>{{ b.description }}</p>
+}
 
 <hr>
 
 <a routerLink="/books">Zum Dashboard</a><br>
-<a [routerLink]="['/books', '9783864909467']">Zum Angular-Buch</a>
+<a [routerLink]="['/books', '9783864909467']">Zum Angular-Buch</a><br>
+<a [routerLink]="['/books', 'invalid']">Zum ungültigen Buch</a>

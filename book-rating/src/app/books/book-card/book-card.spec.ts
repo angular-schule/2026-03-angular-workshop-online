@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BookCard } from './book-card';
 import { inputBinding, outputBinding } from '@angular/core';
 import { Book } from '../shared/book';
+import { provideRouter } from '@angular/router';
 
 describe('BookCard', () => {
   let component: BookCard;
@@ -11,7 +12,9 @@ describe('BookCard', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BookCard],
-      
+      providers: [
+        provideRouter([])
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(BookCard, {
