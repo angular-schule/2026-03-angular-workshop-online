@@ -5,12 +5,17 @@ import { BookRatingHelper } from '../shared/book-rating-helper';
 import { Book } from '../shared/book';
 import { BookStore } from '../shared/book-store';
 import { of } from 'rxjs';
+import { Mock } from 'vitest';
+import { resource } from '@angular/core';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
   let fixture: ComponentFixture<DashboardPage>;
+  let rateUpMockFn: Mock;
 
   beforeEach(async () => {
+    rateUpMockFn = vi.fn();
+
     await TestBed.configureTestingModule({
       imports: [DashboardPage],
       providers: [
@@ -18,11 +23,19 @@ describe('DashboardPage', () => {
         // wird stattdessen unser Mock-Objekt ausgeliefert
         {
           provide: BookRatingHelper,
-          useValue: { rateUp: (b: Book) => b }
+          useValue: {
+            rateUp: rateUpMockFn,
+            rateDown: vi.fn().mockReturnValue({ isbn: 'test2' })
+          }
         },
         {
           provide: BookStore,
-          useValue: { getAll: () => of([]) }
+          useValue: {
+            getAll: () => of([]),
+            getAllResource: () => resource({
+              loader: () => Promise.resolve([])
+            })
+          }
         }
       ]
     }).compileComponents();
@@ -34,5 +47,21 @@ describe('DashboardPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call service.rateUp() for doRateUp()', () => {
+    // ARRANGE
+    // Testbuch
+    const testBook = { isbn: 'test' } as Book; // Type Assertion, bitte vorsichtig verwenden
+
+    // Ersatzobjekt vorbereiten / Mock
+    rateUpMockFn.mockReturnValue(testBook);
+
+    // ACT
+    component.doRateUp(testBook);
+
+    // ASSERT
+    // prüfen, ob rateUp aufgerufen wurde
+    expect(rateUpMockFn).toHaveBeenCalledExactlyOnceWith(testBook);
   });
 });

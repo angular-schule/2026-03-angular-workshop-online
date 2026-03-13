@@ -1,10 +1,16 @@
-<p>Anzahl Bücher: {{ books().length }}</p>
+<p>Status: {{ booksResource.status() }}</p>
 
-@for (b of books(); track b.isbn) {
-    <app-book-card
-        (rateUp)="doRateUp($event)"
-        (rateDown)="doRateDown($event)"
-        [book]="b"
-        [minRating]="1"
-        [maxRating]="5" />
+<button type="button" (click)="reloadList()" class="btn btn-green">Reload</button>
+
+@if (booksResource.hasValue()) {
+    <p>Anzahl Bücher: {{ booksResource.value().length }}</p>
+
+    @for (b of booksResource.value(); track b.isbn) {
+        <app-book-card
+            (rateUp)="doRateUp($event)"
+            (rateDown)="doRateDown($event)"
+            [book]="b"
+            [minRating]="1"
+            [maxRating]="5" />
+    }
 }

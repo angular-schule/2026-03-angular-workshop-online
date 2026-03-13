@@ -11,15 +11,21 @@ import { BookStore } from '../shared/book-store';
   styleUrl: './dashboard-page.scss',
 })
 export class DashboardPage {
-  protected readonly books = signal<Book[]>([]);
+  // protected readonly books = signal<Book[]>([]);
 
   #ratingHelper = inject(BookRatingHelper);
   #store = inject(BookStore);
 
+  protected readonly booksResource = this.#store.getAllResource();
+
   constructor() {
-    this.#store.getAll().subscribe(receivedBooks => {
+    /*this.#store.getAll().subscribe(receivedBooks => {
       this.books.set(receivedBooks);
-    });
+    });*/
+  }
+
+  reloadList() {
+    this.booksResource.reload();
   }
 
   doRateUp(book: Book) {
@@ -37,7 +43,7 @@ export class DashboardPage {
     // [1,2,3,4,5].map(e => e * 10) // [10, 20, 30, 40, 50]
     // [7, 4, 8, 6, 7, 2, 4].filter(e => e < 5) // [4, 2, 4]
     
-    this.books.update(currentList => {
+    this.booksResource.value.update(currentList => {
       return currentList.map(b => {
         if (ratedBook.isbn === b.isbn) {
           return ratedBook;
