@@ -8,21 +8,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
   styleUrl: './book-details-page.scss',
 })
 export class BookDetailsPage {
-  #route = inject(ActivatedRoute);
-
   readonly isbn = input.required<string>();
   
-  constructor() {
-    // PULL
-    // const isbn = this.#route.snapshot.paramMap.get('isbn'); // path: 'books/:isbn'
-    // console.log(isbn);
-
-    // PUSH
-    /*this.#route.paramMap.subscribe(params => {
-      const isbn = params.get('isbn');
-      console.log(isbn);
-    });*/
-  }
 }
 
 
