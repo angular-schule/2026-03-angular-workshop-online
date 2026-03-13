@@ -12,5 +12,15 @@
 
     <button type="button" class="btn btn-red" aria-label="Rate down" (click)="doRateDown()" [disabled]="book().rating <= minRating()"> – </button>
     <button type="button" class="btn btn-green" aria-label="Rate up" (click)="doRateUp()" [disabled]="book().rating >= maxRating()"> + </button>
+
+    <a [routerLink]="['/books', book().isbn]">Details</a>
+    
+        <!--<a routerLink="/books">Dashboard</a>
+    <a routerLink="{{ book().isbn }}">Details</a>
+    <a routerLink="/books/{{ book().isbn }}">Details</a>
+    <a [routerLink]="'/books/' + book().isbn">Details</a>
+    <a [routerLink]="[book().isbn]">Details</a>
+    <a [routerLink]="['.', book().isbn]">Details</a>
+    <a [routerLink]="book().isbn">Details</a>-->
   </div>
 </article>
