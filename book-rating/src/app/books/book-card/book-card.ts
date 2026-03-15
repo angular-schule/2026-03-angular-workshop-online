@@ -21,12 +21,17 @@ export class BookCard {
   // von unten nach oben
   readonly rateUp = output<Book>();
   readonly rateDown = output<Book>();
+  readonly delete = output<Book>();
 
   doRateUp() {
     this.rateUp.emit(this.book());
   }
-  
+
   doRateDown() {
     this.rateDown.emit(this.book());
+  }
+
+  doDelete() {
+    this.delete.emit(this.book());
   }
 }

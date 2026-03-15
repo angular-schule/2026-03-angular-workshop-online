@@ -38,6 +38,17 @@ export class DashboardPage {
     this.#updateList(ratedBook);
   }
 
+  doDeleteBook(book: Book): void {
+    if (!confirm(`Buch "${book.title}" wirklich löschen?`)) {
+      return;
+    }
+
+    this.#store.delete(book.isbn).subscribe(() => {
+      this.booksResource.value.update(oldList => oldList.filter(b => b.isbn !== book.isbn));
+      // ODER: this.booksResource.reload();
+    });
+  }
+
   #updateList(ratedBook: Book) {
     // Buchliste neu erzeugen, dabei Buch austauschen
     // [1,2,3,4,5].map(e => e * 10) // [10, 20, 30, 40, 50]
