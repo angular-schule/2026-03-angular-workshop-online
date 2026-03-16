@@ -27,7 +27,7 @@ export class BookStore {
 
   getSingleResource(isbn: () => string) {
     return httpResource<Book>(
-      () => `${this.#apiUrl}/books/${isbn()}/slow`
+      () => `${this.#apiUrl}/books/${isbn()}`
     )
   }
 
