@@ -3,10 +3,18 @@ import { DashboardPage } from "./dashboard-page/dashboard-page";
 import { BookDetailsPage } from "./book-details-page/book-details-page";
 import { BookSearchPage } from "./book-search-page/book-search-page";
 import { BookCreatePage } from "./book-create-page/book-create-page";
+import { BooksEntryPage } from "./books-entry-page/books-entry-page";
 
 export const booksRoutes: Routes = [
-    { path: 'books', component: DashboardPage },
-    { path: 'books/search', component: BookSearchPage },
-    { path: 'books/create', component: BookCreatePage },
-    { path: 'books/:isbn', component: BookDetailsPage },
+    {
+        path: 'books',
+        component: BooksEntryPage,
+        children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { path: 'dashboard', component: DashboardPage },
+            { path: 'search', component: BookSearchPage },
+            { path: 'create', component: BookCreatePage },
+            { path: ':isbn', component: BookDetailsPage }
+        ]
+    }
 ];
