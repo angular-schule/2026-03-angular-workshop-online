@@ -1,4 +1,6 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
+
 import { Book } from '../shared/book';
 import { BookCard } from '../book-card/book-card';
 import { BookRatingHelper } from '../shared/book-rating-helper';
@@ -6,7 +8,7 @@ import { BookStore } from '../shared/book-store';
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [BookCard],
+  imports: [BookCard, DatePipe],
   templateUrl: './dashboard-page.html',
   styleUrl: './dashboard-page.scss',
 })
@@ -15,13 +17,24 @@ export class DashboardPage {
 
   #ratingHelper = inject(BookRatingHelper);
   #store = inject(BookStore);
+  #destroyRef = inject(DestroyRef);
 
   protected readonly booksResource = this.#store.getAllResource();
+  protected readonly currentDate = signal(Date.now());
 
   constructor() {
     /*this.#store.getAll().subscribe(receivedBooks => {
       this.books.set(receivedBooks);
     });*/
+
+    // Intervall für Datumsaktualisierung
+    const dateInterval = setInterval(() => {
+      this.currentDate.set(Date.now());
+    }, 1000);
+
+    // Callback wird ausgeführt, wenn Komponente zerstört wird.
+    // Das ist die moderne Alternative zu `ngOnDestroy()`.
+    this.#destroyRef.onDestroy(() => clearInterval(dateInterval));
   }
 
   reloadList() {
