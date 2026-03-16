@@ -7,7 +7,7 @@ import { BooksEntryPage } from "./books-entry-page/books-entry-page";
 
 export const booksRoutes: Routes = [
     {
-        path: 'books',
+        path: '',
         component: BooksEntryPage,
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
