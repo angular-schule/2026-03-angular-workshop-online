@@ -1,4 +1,10 @@
 <main class="container">
   <h1>{{ title() }}</h1>
+
+  <nav class="mb-4">
+    <a routerLink="/home" class="me-2" routerLinkActive="active">Home</a>
+    <a routerLink="/books" routerLinkActive="active">Books</a>
+  </nav>
+
   <router-outlet />
 </main>
