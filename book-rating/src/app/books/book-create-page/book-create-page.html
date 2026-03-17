@@ -1,4 +1,5 @@
-<form>
+<pre>submitting: {{ bookForm().submitting() }}</pre>
+<form [formRoot]="bookForm">
     <div class="form-group">
         @let isbnField = bookForm.isbn;
         <label for="isbnInput">ISBN</label>
@@ -9,6 +10,7 @@
 
         <pre>valid: {{ isbnField().valid() }}</pre>
 
+        <!-- Zusatzaufgabe Ausblick: Diesen Teil in eine eigene Kompoennte auslagern-->
         @if (isbnField().invalid() && isbnField().touched()) {
             <ul id="isbnErrors">
                 @for (e of isbnField().errors(); track e.kind) {

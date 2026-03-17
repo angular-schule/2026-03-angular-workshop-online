@@ -1,7 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Book } from '../shared/book';
-import { apply, applyEach, applyWhen, form, FormField, max, maxLength, min, minLength, provideSignalFormsConfig, required, schema, validate } from '@angular/forms/signals';
+import { apply, applyEach, applyWhen, form, FormField, FormRoot, max, maxLength, min, minLength, provideSignalFormsConfig, required, schema, validate } from '@angular/forms/signals';
 import { JsonPipe } from '@angular/common';
+import { BookStore } from '../shared/book-store';
+import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 
 export const isbnSchema = schema<string>(path => {
   required(path);
@@ -12,7 +15,7 @@ export const isbnSchema = schema<string>(path => {
 
 @Component({
   selector: 'app-book-create-page',
-  imports: [FormField, JsonPipe],
+  imports: [FormField, FormRoot, JsonPipe],
   templateUrl: './book-create-page.html',
   styleUrl: './book-create-page.scss',
   providers: [
@@ -24,6 +27,9 @@ export const isbnSchema = schema<string>(path => {
   ]
 })
 export class BookCreatePage {
+  #store = inject(BookStore);
+  #router = inject(Router);
+
   // Datenmodell
   protected readonly bookData = signal<Book>({
     isbn: '',
@@ -83,6 +89,15 @@ export class BookCreatePage {
       );
 
       // Idee für Ausblick: Eigener Validator für Autoren (mindestens 1 Eintrag muss ausgefüllt sein)
+    },
+    {
+      submission: {
+        action: async (f) => {
+          const newBook: Book = f().value();
+          const receivedBook = await firstValueFrom(this.#store.create(newBook))
+          await this.#router.navigate(['/books', receivedBook.isbn]);
+        }
+      }
     }
   );
 
