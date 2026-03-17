@@ -1,5 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Subject, ReplaySubject, timer, Subscription, takeWhile, takeUntil } from 'rxjs';
+import { Component, DestroyRef, inject, OnDestroy } from '@angular/core';
+import { Subject, ReplaySubject, timer, Subscription, takeWhile, takeUntil, take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { HistoryWindow } from '../shared/history-window/history-window';
@@ -22,21 +22,25 @@ export class ExerciseUnsubscribe implements OnDestroy {
    * 
    * Es gibt noch weitere Wege, das Problem zu lösen ...
    */
+
+  #dref = inject(DestroyRef);
+  // #destroy$ = new Subject<void>();
+
   constructor() {
     const interval$ = timer(0, 1000);
 
     interval$.pipe(
-
-      /******************************/
-
-      
-      /******************************/
-
+      // takeWhile(() => !this.#dref.destroyed)
+      // takeUntil(this.#destroy$)
+      takeUntilDestroyed()
     ).subscribe({
       next: e => this.log(e),
       error: err => this.log('❌ ERROR: ' + err),
       complete: () => this.log('✅ COMPLETE')
     });
+
+    // inject(DestroyRef).onDestroy(() => sub.unsubscribe());
+    // inject(DestroyRef).onDestroy(() => this.#destroy$.next());
   }
 
   ngOnDestroy() {
