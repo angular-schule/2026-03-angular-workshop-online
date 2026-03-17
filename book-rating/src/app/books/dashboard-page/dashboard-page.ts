@@ -30,11 +30,12 @@ export class DashboardPage {
     // Intervall für Datumsaktualisierung
     const dateInterval = setInterval(() => {
       this.currentDate.set(Date.now());
+      console.log('INTERVAL', Date.now())
     }, 1000);
 
     // Callback wird ausgeführt, wenn Komponente zerstört wird.
     // Das ist die moderne Alternative zu `ngOnDestroy()`.
-    this.#destroyRef.onDestroy(() => clearInterval(dateInterval));
+    // this.#destroyRef.onDestroy(() => clearInterval(dateInterval));
   }
 
   reloadList() {
