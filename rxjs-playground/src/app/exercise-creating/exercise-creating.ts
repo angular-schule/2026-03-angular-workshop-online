@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, of, from, timer, interval, ReplaySubject, map, filter, Observer, Subscriber } from 'rxjs';
+import { Observable, of, from, timer, interval, ReplaySubject, map, filter, Observer, Subscriber, pipe, OperatorFunction } from 'rxjs';
 
 import { HistoryWindow } from '../shared/history-window/history-window';
 
@@ -32,9 +32,26 @@ export class ExerciseCreating {
     // timer(1000, 1000)     // ---0---1---2---3---4 ...
     // timer(0, 1000)        // 0---1---2---3---4 ...
     
+
+    function myOf<T>(...values: T[]): Observable<T> {
+      return new Observable<T>(sub => {
+        values.forEach(value => sub.next(value));
+        sub.complete();
+      });
+    }
+
+
+    function myCombiOperator(): OperatorFunction<number, number> {
+      return pipe(
+        map((e: number) => e * 3),
+        filter(e => e % 2 === 0)
+      );
+    }
+
     timer(0, 1000).pipe(
-      map(e => e * 3),
-      filter(e => e % 2 === 0)
+      // map(e => e * 3),
+      // filter(e => e % 2 === 0)
+      myCombiOperator()
     ).subscribe({
       next: e => this.log(e),
       complete: () => this.log('COMPLETE')
@@ -46,12 +63,26 @@ export class ExerciseCreating {
     function producer(sub: Subscriber<number>) {
       const result = Math.random();
       sub.next(result);
-      sub.next(2)
-      sub.next(3)
+      sub.next(2);
+      sub.next(3);
+      sub.complete();
+      console.log('AFTER COMPLETE');
 
-      setTimeout(() => sub.next(100), 2000)
-      setTimeout(() => sub.next(400), 4000)
-      setTimeout(() => sub.complete(), 6000)
+      const timer1 = setTimeout(() => sub.next(100), 2000);
+      const timer2 = setTimeout(() => {
+        console.log('TIMEOUT 4000');
+        sub.next(400);
+      }, 4000);
+      const timer3 = setTimeout(() => sub.complete(), 6000);
+
+      // Teardown Logic
+      // wird ausgeführt bei unsubscribe() und complete/error
+      return () => {
+        console.log('TEARDOWN');
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+        clearTimeout(timer3);
+      };
     }
 
     // Observer: empfängt die Daten
@@ -66,8 +97,18 @@ export class ExerciseCreating {
     // producer(obs);
 
     const myObs$ = new Observable(producer);
-    // myObs$.subscribe(obs)
+    const myObs2$ = new Observable<string>(sub => {
+      sub.next('Hallo Welt');
+      sub.complete();
+    })
     // myObs$.subscribe(e => console.log(e))
+    // myObs$.subscribe()
+    const sub = myObs$.subscribe(obs)
+
+    setTimeout(() => {
+      console.log('unsubscribe');
+      sub.unsubscribe()
+    }, 3000)
 
     
     /******************************/
