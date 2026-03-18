@@ -1,1 +1,15 @@
-<p>book-search-page works!</p>
+<h2>Suche</h2>
+
+<div class="form-group">
+    <input type="search" aria-label="Search" class="form-control" [formField]="searchForm" />
+</div>
+
+<pre>{{ searchTerm() }}</pre>
+
+<ul>
+    @for (b of results(); track b.isbn) {
+        <li>{{ b.title }} ({{ b.isbn }})</li>
+    } @empty {
+        <li>Keine Ergebnisse!</li>
+    }
+</ul>
