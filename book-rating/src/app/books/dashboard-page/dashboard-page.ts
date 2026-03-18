@@ -1,14 +1,15 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 
 import { Book } from '../shared/book';
 import { BookCard } from '../book-card/book-card';
 import { BookRatingHelper } from '../shared/book-rating-helper';
 import { BookStore } from '../shared/book-store';
+import { map, timer } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [BookCard, DatePipe],
+  imports: [BookCard, DatePipe, AsyncPipe],
   templateUrl: './dashboard-page.html',
   styleUrl: './dashboard-page.scss',
 })
@@ -22,16 +23,20 @@ export class DashboardPage {
   protected readonly booksResource = this.#store.getAllResource();
   protected readonly currentDate = signal(Date.now());
 
+  protected readonly date$ = timer(0, 1000).pipe(
+    map(() => Date.now())
+  );
+
   constructor() {
     /*this.#store.getAll().subscribe(receivedBooks => {
       this.books.set(receivedBooks);
     });*/
 
     // Intervall für Datumsaktualisierung
-    const dateInterval = setInterval(() => {
+    /*const dateInterval = setInterval(() => {
       this.currentDate.set(Date.now());
       console.log('INTERVAL', Date.now())
-    }, 1000);
+    }, 1000);*/
 
     // Callback wird ausgeführt, wenn Komponente zerstört wird.
     // Das ist die moderne Alternative zu `ngOnDestroy()`.
