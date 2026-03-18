@@ -5,7 +5,8 @@ import { Book } from '../shared/book';
 import { BookCard } from '../book-card/book-card';
 import { BookRatingHelper } from '../shared/book-rating-helper';
 import { BookStore } from '../shared/book-store';
-import { map, timer } from 'rxjs';
+import { map, startWith, timer } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -21,11 +22,9 @@ export class DashboardPage {
   #destroyRef = inject(DestroyRef);
 
   protected readonly booksResource = this.#store.getAllResource();
-  protected readonly currentDate = signal(Date.now());
-
-  protected readonly date$ = timer(0, 1000).pipe(
+  protected readonly currentDate = toSignal(timer(0, 1000).pipe(
     map(() => Date.now())
-  );
+  ));
 
   constructor() {
     /*this.#store.getAll().subscribe(receivedBooks => {
