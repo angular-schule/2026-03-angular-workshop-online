@@ -4,6 +4,7 @@
     <a routerLink="dashboard" routerLinkActive="active" class="me-2">Dashboard</a>
     <a routerLink="create" routerLinkActive="active" class="me-2">Create</a>
     <a routerLink="search" routerLinkActive="active" class="me-2">Search</a>
+    <a routerLink="favorites" routerLinkActive="active" class="me-2">&#9829; Favorites ({{ store.likedBooksCount() }})</a>
 </nav>
 
 <router-outlet />

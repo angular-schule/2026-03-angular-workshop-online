@@ -13,6 +13,7 @@
     <button type="button" class="btn btn-red" aria-label="Rate down" (click)="doRateDown()" [disabled]="book().rating <= minRating()"> – </button>
     <button type="button" class="btn btn-green" aria-label="Rate up" (click)="doRateUp()" [disabled]="book().rating >= maxRating()"> + </button>
     <button type="button" class="btn btn-yellow" (click)="doDelete()">Löschen</button>
+    <button type="button" class="btn btn-red" (click)="doLike()">&#9829; Like</button>
 
     <a [routerLink]="['/books', book().isbn]">Details</a>
     

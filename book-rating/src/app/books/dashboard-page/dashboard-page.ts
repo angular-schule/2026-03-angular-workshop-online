@@ -56,6 +56,10 @@ export class DashboardPage {
     this.#updateList(ratedBook);
   }
 
+  doLikeBook(book: Book) {
+    this.#store.addLikedBook(book);
+  }
+
   doDeleteBook(book: Book): void {
     if (!confirm(`Buch "${book.title}" wirklich löschen?`)) {
       return;

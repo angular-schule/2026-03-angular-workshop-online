@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { BookStore } from '../shared/book-store';
 
 @Component({
   selector: 'app-books-entry-page',
@@ -7,4 +8,6 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   templateUrl: './books-entry-page.html',
   styleUrl: './books-entry-page.scss',
 })
-export class BooksEntryPage {}
+export class BooksEntryPage {
+  protected readonly store = inject(BookStore);
+}

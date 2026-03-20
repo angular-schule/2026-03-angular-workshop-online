@@ -22,6 +22,7 @@ export class BookCard {
   readonly rateUp = output<Book>();
   readonly rateDown = output<Book>();
   readonly delete = output<Book>();
+  readonly like = output<Book>();
 
   doRateUp() {
     this.rateUp.emit(this.book());
@@ -33,5 +34,9 @@ export class BookCard {
 
   doDelete() {
     this.delete.emit(this.book());
+  }
+
+  doLike() {
+    this.like.emit(this.book());
   }
 }

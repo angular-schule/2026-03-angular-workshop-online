@@ -4,6 +4,7 @@ import { BookDetailsPage } from "./book-details-page/book-details-page";
 import { BookSearchPage } from "./book-search-page/book-search-page";
 import { BookCreatePage } from "./book-create-page/book-create-page";
 import { BooksEntryPage } from "./books-entry-page/books-entry-page";
+import { LikedBooksPage } from "./liked-books-page/liked-books-page";
 
 export const booksRoutes: Routes = [
     {
@@ -14,6 +15,7 @@ export const booksRoutes: Routes = [
             { path: 'dashboard', component: DashboardPage },
             { path: 'search', component: BookSearchPage },
             { path: 'create', component: BookCreatePage },
+            { path: 'favorites', component: LikedBooksPage },
             { path: ':isbn', component: BookDetailsPage }
         ]
     }

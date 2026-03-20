@@ -1,7 +1,9 @@
 import { HttpClient, httpResource } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Book } from './book';
 import { Observable } from 'rxjs';
+
+const LIKED_BOOKS_KEY = 'liked-books';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +11,31 @@ import { Observable } from 'rxjs';
 export class BookStore {
   #http = inject(HttpClient);
   #apiUrl = 'https://api.angular.schule';
+
+  readonly likedBooks = signal<Book[]>(this.#loadLikedBooks());
+  readonly likedBooksCount = computed(() => this.likedBooks().length);
+
+  constructor() {
+    effect(() => {
+      localStorage.setItem(LIKED_BOOKS_KEY, JSON.stringify(this.likedBooks()));
+    });
+  }
+
+  #loadLikedBooks(): Book[] {
+    const raw = localStorage.getItem(LIKED_BOOKS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }
+
+  addLikedBook(book: Book) {
+    if (this.likedBooks().some(b => b.isbn === book.isbn)) {
+      return;
+    }
+    this.likedBooks.update(books => [...books, book]);
+  }
+
+  clearLikedBooks() {
+    this.likedBooks.set([]);
+  }
 
   getAll(): Observable<Book[]> {
     return this.#http.get<Book[]>(`${this.#apiUrl}/books`);
