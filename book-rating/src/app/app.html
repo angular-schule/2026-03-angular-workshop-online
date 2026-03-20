@@ -3,7 +3,10 @@
 
   <nav class="mb-4">
     <a routerLink="/home" class="me-2" routerLinkActive="active">Home</a>
-    <a routerLink="/books" routerLinkActive="active">Books</a>
+    <a routerLink="/books" class="me-2" routerLinkActive="active">Books</a>
+    @if (authService.isAuthenticated()) {
+      <button class="btn btn-outline-secondary btn-sm" (click)="logout()">Logout</button>
+    }
   </nav>
 
   <router-outlet />
