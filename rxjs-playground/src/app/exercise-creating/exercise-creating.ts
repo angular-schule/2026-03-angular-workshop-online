@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, of, from, timer, interval, ReplaySubject, map, filter, Observer, Subscriber, pipe, OperatorFunction } from 'rxjs';
+import { Observable, of, from, timer, interval, ReplaySubject, map, filter, take, Observer, Subscriber, pipe, OperatorFunction } from 'rxjs';
 
 import { HistoryWindow } from '../shared/history-window/history-window';
 
@@ -48,11 +48,23 @@ export class ExerciseCreating {
       );
     }
 
-    timer(0, 1000).pipe(
+    /*timer(0, 1000).pipe(
       // map(e => e * 3),
       // filter(e => e % 2 === 0)
       myCombiOperator()
     ).subscribe({
+      next: e => this.log(e),
+      complete: () => this.log('COMPLETE')
+    });*/
+
+    function intervalFromArray<T>(intervalMs: number, values: T[]): Observable<T> {
+      return interval(intervalMs).pipe(
+        take(values.length),
+        map(i => values[i])
+      );
+    }
+
+    intervalFromArray(1000, ['A', 'B', 'C', 'D']).subscribe({
       next: e => this.log(e),
       complete: () => this.log('COMPLETE')
     });
